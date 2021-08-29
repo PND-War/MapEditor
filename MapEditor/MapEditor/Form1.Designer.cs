@@ -370,7 +370,7 @@ namespace MapEditor
                 }
             }
         }
-        
+
 
         private int CheckAllTreeVariants(int i, int j)
         {
@@ -380,7 +380,7 @@ namespace MapEditor
             bool up = false;
             bool down = false;
 
-            if(i - 1 < 0 || map[i - 1, j].terrain == TypeOfTerrain.Tree)
+            if (i - 1 < 0 || map[i - 1, j].terrain == TypeOfTerrain.Tree)
             {
                 left = true;
             }
@@ -388,11 +388,11 @@ namespace MapEditor
             {
                 right = true;
             }
-            if (j - 1 < 0 || map[i , j - 1].terrain == TypeOfTerrain.Tree)
+            if (j - 1 < 0 || map[i, j - 1].terrain == TypeOfTerrain.Tree)
             {
                 up = true;
             }
-            if (j + 1 >= 100 || map[i , j + 1].terrain == TypeOfTerrain.Tree)
+            if (j + 1 >= 100 || map[i, j + 1].terrain == TypeOfTerrain.Tree)
             {
                 down = true;
             }
@@ -401,7 +401,7 @@ namespace MapEditor
             {
                 spriteId = 5;
             }
-            else if(left && right && down)
+            else if (left && right && down)
             {
                 spriteId = 2;
             }
@@ -440,59 +440,82 @@ namespace MapEditor
         {
             int spriteId = 0;
 
-            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Road)
-            {
-                spriteId = 1;
-                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Road)
-                {
-                    spriteId = 8;
-                    if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
-                    {
-                        spriteId = 7;
+            bool left = false;
+            bool right = false;
+            bool up = false;
+            bool down = false;
 
-                        if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
-                        {
-                            spriteId = 6;
-                        }
-                    }
-                }
-                else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
-                {
-                    spriteId = 10;
+            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Road) left = true;
+            if (i + 1 <= 100 && map[i + 1, j].terrain == TypeOfTerrain.Road) right = true;
+            if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Road) up = true;
+            if (j + 1 <= 100 && map[i, j + 1].terrain == TypeOfTerrain.Road) down = true;
 
-                    if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
-                    {
-                        spriteId = 2;
-                    }
-                }
-            }
-            else if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
-            {
-                spriteId = 1;
-                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Road)
-                {
-                    spriteId = 9;
-                    if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
-                    {
-                        spriteId = 5;
-
-                        if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Road)
-                        {
-                            spriteId = 6;
-                        }
-                    }
-                }
-                else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
-                {
-                    spriteId = 11;
-
-                    if (i + 1 > 0 && map[i + 1, j].terrain == TypeOfTerrain.Road)
-                    {
-                        spriteId = 2;
-                    }
-                }
-            }
+            if (left && right && up && down) spriteId = 6;
+            else if (left && right && up) spriteId = 4;
+            else if (left && right && down) spriteId = 2;
+            else if (right && up && down) spriteId = 5;
+            else if (left && up && down) spriteId = 7;
+            else if (left && up) spriteId = 8;
+            else if (left && down) spriteId = 11;
+            else if (right && down) spriteId = 10;
+            else if (right && up) spriteId = 9;
+            else if (left || right) spriteId = 1;
+            else if (up || down) spriteId = 3;
             else spriteId = 3;
+
+            //if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Road)
+            //{
+            //    spriteId = 1;
+            //    if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Road)
+            //    {
+            //        spriteId = 8;
+            //        if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
+            //        {
+            //            spriteId = 7;
+
+            //            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
+            //            {
+            //                spriteId = 6;
+            //            }
+            //        }
+            //    }
+            //    else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
+            //    {
+            //        spriteId = 10;
+
+            //        if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
+            //        {
+            //            spriteId = 2;
+            //        }
+            //    }
+            //}
+            //else if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
+            //{
+            //    spriteId = 1;
+            //    if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Road)
+            //    {
+            //        spriteId = 9;
+            //        if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
+            //        {
+            //            spriteId = 5;
+
+            //            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Road)
+            //            {
+            //                spriteId = 6;
+            //            }
+            //        }
+            //    }
+            //    else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
+            //    {
+            //        spriteId = 11;
+
+            //        if (i + 1 > 0 && map[i + 1, j].terrain == TypeOfTerrain.Road)
+            //        {
+            //            spriteId = 2;
+            //        }
+            //    }
+            //}
+            //else spriteId = 3;
 
             return spriteId;
         }
@@ -500,38 +523,20 @@ namespace MapEditor
         {
             int spriteId = 17;
 
-            if (i - 1 > 0 && (map[i - 1, j].terrain == TypeOfTerrain.Earth))
-            {
-                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Earth)
-                {
-                    spriteId = 85;
-                    if ((j + 1 < 100) && (map[i - 1, j + 1].terrain == TypeOfTerrain.Earth || map[i - 1, j - 1].terrain == TypeOfTerrain.Earth))
-                        spriteId = 5;
-                }
-                else if ((j + 1 < 100 && i + 1 < 100) && map[i, j + 1].terrain == TypeOfTerrain.Earth)
-                {
-                    spriteId = 83;
-                    if ((j - 1 > 0) && (map[i + 1, j + 1].terrain == TypeOfTerrain.Earth || map[i - 1, j - 1].terrain == TypeOfTerrain.Earth))
-                        spriteId = 11;
-                }
-            }
+            bool left = false;
+            bool right = false;
+            bool up = false;
+            bool down = false;
 
-            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Earth)
-            {
-                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Earth)
-                {
-                    spriteId = 84;
-                    if ((i - 1 > 0 && j + 1 < 100) && (map[i - 1, j + 1].terrain == TypeOfTerrain.Earth || map[i + 1, j - 1].terrain == TypeOfTerrain.Earth))
-                        spriteId = 6;
-                }
-                else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Earth)
-                {
-                    spriteId = 12;
-                    if ((i - 1 > 0 && j - 1 > 0 && i + 1 < 100) && (map[i + 1, j + 1].terrain == TypeOfTerrain.Earth))
-                        spriteId = 82;
-                    //map[i - 1, j - 1].terrain == TypeOfTerrain.Earth ||
-                }
-            }
+            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Earth) left = true;
+            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Earth) right = true;
+            if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Earth) up = true;
+            if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Earth) down = true;
+
+            else if (left && down) spriteId = 11;
+            else if (left && up) spriteId = 5;
+            else if (right && up) spriteId = 6;
+            else if (right && down) spriteId = 12;
 
             return spriteId;
         }
@@ -539,131 +544,98 @@ namespace MapEditor
         private int CheckAllEarthVariants(int i, int j)
         {
             int spriteId = 81;
-            List<int> exc = new List<int>() { 5, 6, 11, 12, 84, 82, 83, 85 };
 
-            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Water)
+            bool left = false;
+            bool right = false;
+            bool up = false;
+            bool down = false;
+
+            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Water) left = true;
+            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Water) right = true;
+            if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Water) up = true;
+            if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Water) down = true;
+
+            if (right && down)
+            {
+                spriteId = 4;
+                if ((i+1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i+1, j+1].terrain == TypeOfTerrain.Water || map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
+                {
+                    spriteId = 85;
+                }
+                //if ((i - 1 > 0 && j + 2 < 100) && map[i - 1, j + 2].terrain == TypeOfTerrain.Water)
+                //{
+                //    spriteId = 1;
+                //}
+            }
+            else if (left && up)
+            {
+                spriteId = 13;
+                if ((i + 1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i + 1, j + 1].terrain == TypeOfTerrain.Water || map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
+                {
+                    spriteId = 82;
+                }
+                //if ((i + 1 < 100 && j - 2 > 0) && map[i + 1, j - 2].terrain == TypeOfTerrain.Water)
+                //{
+                //    spriteId = 16;
+                //}
+            }
+            else if (right && up)
+            {
+                //spriteId = 14;
+                spriteId = 83;
+                //if ((i - 1 > 0 && j - 2 > 0) && map[i - 1, j - 2].terrain == TypeOfTerrain.Water)
+                //{
+                //    spriteId = 10;
+                //}
+            }
+            else if (left && down)
+            {
+                spriteId = 7;
+                if ((i + 1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i - 1, j - 1].terrain == TypeOfTerrain.Water && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
+                {
+                    spriteId = 84;
+                }
+                //if ((i + 1 < 100 && j + 2 < 100) && map[i + 1, j + 2].terrain == TypeOfTerrain.Water)
+                //{
+                //    spriteId = 3;
+                //}
+            }
+            else if (right)
             {
                 spriteId = 8;
-                if (j - 1 > 0 && map[i + 1, j - 1].terrain == TypeOfTerrain.Earth)
-                {
-                    if ((i - 1 > 0 && j + 1 < 100) && map[i - 1, j + 1].terrain == TypeOfTerrain.Earth)
-                    {
-                        spriteId = 4;
-                    }
-                }
-
-                if (j + 1 < 100 && map[i + 1, j + 1].terrain == TypeOfTerrain.Earth)
-                {
-                    if (j - 1 > 0 && map[i - 1, j - 1].terrain == TypeOfTerrain.Earth)
-                    {
-                        spriteId = 10;
-                    }
-                }
+                if (i + 1 < 100 && map[i + 1, j].spriteId == 5)
+                spriteId = 4;
+                if (i + 1 < 100 && map[i + 1, j].spriteId == 11)
+                spriteId = 10;
             }
-
-            if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Water && (!exc.Contains(map[i, j - 1].spriteId)))
-            {
-                spriteId = 15;
-
-                if ((j + 1 < 100 && i - 1 > 0) && map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
-                {
-                    if ((i + 1 < 100 && j - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
-                    {
-                        spriteId = 16;
-                    }
-                }
-
-                if (i + 1 < 100 && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
-                {
-                    if (map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
-                    {
-                        spriteId = 14;
-                    }
-                }
-
-                if ((j + 1 < 100 && i - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Water && map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
-                {
-                    spriteId = 15;
-                }
-            }
-
-            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Water)
+            else if (left)
             {
                 spriteId = 9;
-                if (j + 1 < 100 && map[i - 1, j + 1].terrain == TypeOfTerrain.Earth)
-                {
-                    if ((i + 1 < 100 && j - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Earth)
-                    {
-                        spriteId = 13;
-                    }
-                }
-
-                if (j - 1 > 0 && map[i - 1, j - 1].terrain == TypeOfTerrain.Earth)
-                {
-                    if (i + 1 < 100 && map[i + 1, j - 1].terrain == TypeOfTerrain.Earth)
-                    {
-                        spriteId = 7;
-                    }
-                }
+                if (i - 1 > 0 && map[i - 1, j].spriteId == 6)
+                    spriteId = 7;
+                if (i - 1 > 0 && map[i - 1, j].spriteId == 12)
+                    spriteId = 13;
             }
-
-
+            else if (down)
+            {
+                spriteId = 2;
+                if (j + 1 < 100 && map[i, j + 1].spriteId == 5)
+                    spriteId = 1;
+                if (j + 1 < 100 && map[i, j + 1].spriteId == 6)
+                    spriteId = 3;
+            }
+            else if (up)
+            {
+                spriteId = 15;
+                if (j - 1 > 0 && map[i, j - 1].spriteId == 11)
+                    spriteId = 14;
+                if (j - 1 > 0 && map[i, j - 1].spriteId == 12)
+                    spriteId = 16;
+            }
 
             return spriteId;
         }
 
-        private int OLDCheckAllEarthVariants(int i, int j)
-        {
-            int spriteId = 0;
-
-            // Po krayam
-            if ((i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Earth))
-            {
-                if (j + 1 < 100 && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
-                    spriteId = 18;
-                else if (j - 1 > 0 && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
-                    spriteId = 18;
-                else spriteId = 81;
-            }
-
-            // Sprava
-            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Water)
-            {
-                spriteId = 8;
-                if ((i + 1 < 100 && j - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
-                {
-                    spriteId = 10;
-
-                    if ((i + 1 < 100 && j + 1 < 100) && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
-                    {
-                        spriteId = 8;
-
-                    }
-                    else if ((i + 1 < 100 && j + 1 < 100) && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
-                        spriteId = 4;
-                }
-
-            }
-
-            // Sverhy
-            if (i + 1 < 100 && map[i + 1, j].terrain != TypeOfTerrain.Water)
-            {
-                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Water)
-                {
-                    spriteId = 15;
-                    if ((i + 1 < 100 && j - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
-                    {
-                        spriteId = 14;
-                        if ((i - 1 > 0 && j - 1 > 0) && map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
-                            spriteId = 15;
-                    }
-                    else if ((i - 1 > 0 && j - 1 > 0) && map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
-                        spriteId = 12;
-                }
-            }
-
-            return spriteId;
-        }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             Bitmap bitmap = new Bitmap(800, 800);
@@ -698,14 +670,14 @@ namespace MapEditor
                 case "Open":
                     OpenFileDialog openFileDialog = new OpenFileDialog();
                     openFileDialog.Filter = "WC|*.wc";
-                    
+
                     if (openFileDialog.ShowDialog() == DialogResult.OK) map = JsonConvert.DeserializeObject<Field[,]>(File.ReadAllText(openFileDialog.FileName));
-                    
+
                     for (int i = 0; i < 100; i++)
                     {
                         for (int j = 0; j < 100; j++)
                         {
-                            elements.Add(new Element(new Size(GetPointSizeWhileOpen(map[i,j])), new Point(i * GetSizeWhileOpen(map[i, j]), j * GetSizeWhileOpen(map[i, j])), GetColorWhileOpen(map[i, j]), 2));
+                            elements.Add(new Element(new Size(GetPointSizeWhileOpen(map[i, j])), new Point(i * GetSizeWhileOpen(map[i, j]), j * GetSizeWhileOpen(map[i, j])), GetColorWhileOpen(map[i, j]), 2));
                         }
                     }
                     this.Invalidate();
