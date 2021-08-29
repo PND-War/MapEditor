@@ -203,6 +203,7 @@ namespace MapEditor
             this.Paint += Form1_Paint;
         }
 
+
         private Color GetColor()
         {
             switch ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()))
@@ -260,6 +261,65 @@ namespace MapEditor
             }
             return new Point(8, 8);
         }
+
+        private Color GetColorWhileOpen(Field field)
+        {
+            switch (field.terrain)
+            {
+                case TypeOfTerrain.Earth:
+                    return Color.ForestGreen;
+                case TypeOfTerrain.Water:
+                    return Color.Blue;
+                case TypeOfTerrain.Road:
+                    return Color.SandyBrown;
+                case TypeOfTerrain.Tree:
+                    return Color.Green;
+                case TypeOfTerrain.Mine:
+                    return Color.Yellow;
+                case TypeOfTerrain.Bridge:
+                    return Color.DarkOrange;
+            }
+            return Color.ForestGreen;
+        }
+        private int GetSizeWhileOpen(Field field)
+        {
+            switch (field.terrain)
+            {
+                case TypeOfTerrain.Earth:
+                    return 8;
+                case TypeOfTerrain.Water:
+                    return 8;
+                case TypeOfTerrain.Road:
+                    return 8;
+                case TypeOfTerrain.Tree:
+                    return 8;
+                case TypeOfTerrain.Mine:
+                    return 16;
+                case TypeOfTerrain.Bridge:
+                    return 8;
+            }
+            return 8;
+        }
+        private Point GetPointSizeWhileOpen(Field field)
+        {
+            switch (field.terrain)
+            {
+                case TypeOfTerrain.Earth:
+                    return new Point(8, 8);
+                case TypeOfTerrain.Water:
+                    return new Point(8, 8);
+                case TypeOfTerrain.Road:
+                    return new Point(8, 8);
+                case TypeOfTerrain.Tree:
+                    return new Point(8, 8);
+                case TypeOfTerrain.Mine:
+                    return new Point(16, 16);
+                case TypeOfTerrain.Bridge:
+                    return new Point(8, 8);
+            }
+            return new Point(8, 8);
+        }
+
         private void PaintField_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && ((e.Location.X > 0 && e.Location.X < 800) && (e.Location.Y > 0 && e.Location.Y < 800)))
@@ -412,13 +472,13 @@ namespace MapEditor
                 if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Earth)
                 {
                     spriteId = 85;
-                    if (map[i - 1, j + 1].terrain == TypeOfTerrain.Earth || map[i - 1, j - 1].terrain == TypeOfTerrain.Earth)
+                    if ((j + 1 < 100) && (map[i - 1, j + 1].terrain == TypeOfTerrain.Earth || map[i - 1, j - 1].terrain == TypeOfTerrain.Earth))
                         spriteId = 5;
                 }
-                else if ((j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Earth))
+                else if ((j + 1 < 100 && i + 1 < 100) && map[i, j + 1].terrain == TypeOfTerrain.Earth)
                 {
                     spriteId = 83;
-                    if (map[i + 1, j + 1].terrain == TypeOfTerrain.Earth || map[i - 1, j - 1].terrain == TypeOfTerrain.Earth)
+                    if ((j - 1 > 0) && (map[i + 1, j + 1].terrain == TypeOfTerrain.Earth || map[i - 1, j - 1].terrain == TypeOfTerrain.Earth))
                         spriteId = 11;
                 }
             }
@@ -427,15 +487,16 @@ namespace MapEditor
             {
                 if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Earth)
                 {
-                    spriteId = 6;
-                    if (map[i - 1, j + 1].terrain == TypeOfTerrain.Earth || map[i + 1, j - 1].terrain == TypeOfTerrain.Earth)
-                        spriteId = 84;
+                    spriteId = 84;
+                    if ((i - 1 > 0 && j + 1 < 100) && (map[i - 1, j + 1].terrain == TypeOfTerrain.Earth || map[i + 1, j - 1].terrain == TypeOfTerrain.Earth))
+                        spriteId = 6;
                 }
                 else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Earth)
                 {
                     spriteId = 12;
-                    if (map[i - 1, j - 1].terrain == TypeOfTerrain.Earth || map[i + 1, j + 1].terrain == TypeOfTerrain.Earth)
+                    if ((i - 1 > 0 && j - 1 > 0 && i + 1 < 100) && (map[i + 1, j + 1].terrain == TypeOfTerrain.Earth))
                         spriteId = 82;
+                    //map[i - 1, j - 1].terrain == TypeOfTerrain.Earth ||
                 }
             }
 
@@ -445,13 +506,14 @@ namespace MapEditor
         private int CheckAllEarthVariants(int i, int j)
         {
             int spriteId = 81;
+            List<int> exc = new List<int>() { 5, 6, 11, 12, 84, 82, 83, 85 };
 
             if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Water)
             {
                 spriteId = 8;
                 if (j - 1 > 0 && map[i + 1, j - 1].terrain == TypeOfTerrain.Earth)
                 {
-                    if (j + 1 < 100 && map[i - 1, j + 1].terrain == TypeOfTerrain.Earth)
+                    if ((i - 1 > 0 && j + 1 < 100) && map[i - 1, j + 1].terrain == TypeOfTerrain.Earth)
                     {
                         spriteId = 4;
                     }
@@ -465,6 +527,54 @@ namespace MapEditor
                     }
                 }
             }
+
+            if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Water && (!exc.Contains(map[i, j - 1].spriteId)))
+            {
+                spriteId = 15;
+
+                if ((j + 1 < 100 && i - 1 > 0) && map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
+                {
+                    if ((i + 1 < 100 && j - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
+                    {
+                        spriteId = 16;
+                    }
+                }
+
+                if (i + 1 < 100 && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
+                {
+                    if (map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
+                    {
+                        spriteId = 14;
+                    }
+                }
+
+                if ((j + 1 < 100 && i - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Water && map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
+                {
+                    spriteId = 15;
+                }
+            }
+
+            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Water)
+            {
+                spriteId = 9;
+                if (j + 1 < 100 && map[i - 1, j + 1].terrain == TypeOfTerrain.Earth)
+                {
+                    if ((i + 1 < 100 && j - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Earth)
+                    {
+                        spriteId = 13;
+                    }
+                }
+
+                if (j - 1 > 0 && map[i - 1, j - 1].terrain == TypeOfTerrain.Earth)
+                {
+                    if (i + 1 < 100 && map[i + 1, j - 1].terrain == TypeOfTerrain.Earth)
+                    {
+                        spriteId = 7;
+                    }
+                }
+            }
+
+
 
             return spriteId;
         }
@@ -555,7 +665,16 @@ namespace MapEditor
                 case "Open":
                     OpenFileDialog openFileDialog = new OpenFileDialog();
                     openFileDialog.Filter = "WC|*.wc";
+                    
                     if (openFileDialog.ShowDialog() == DialogResult.OK) map = JsonConvert.DeserializeObject<Field[,]>(File.ReadAllText(openFileDialog.FileName));
+                    
+                    for (int i = 0; i < 100; i++)
+                    {
+                        for (int j = 0; j < 100; j++)
+                        {
+                            elements.Add(new Element(new Size(GetPointSizeWhileOpen(map[i,j])), new Point(i * GetSizeWhileOpen(map[i, j]), j * GetSizeWhileOpen(map[i, j])), GetColorWhileOpen(map[i, j]), 2));
+                        }
+                    }
                     this.Invalidate();
                     break;
                 case "Save":
