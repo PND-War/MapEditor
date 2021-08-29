@@ -22,6 +22,7 @@ namespace MapEditor
         public bool cheked { get; set; } = false;
         public Texture2D fieldTexture { get; set; }
         public AUnit unit { get; set; }
+        public int spriteId { get; set; }
 
         public Color GetFieldColor()
         {

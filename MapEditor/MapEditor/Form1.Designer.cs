@@ -308,6 +308,79 @@ namespace MapEditor
             }
         }
 
+        private void IndicateRoadSprite()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    if (map[i, j].terrain == TypeOfTerrain.Road)
+                        map[i, j].spriteId = CheckAllRoadVariants(i, j);
+                }
+            }
+        }
+
+        private int CheckAllRoadVariants(int i, int j)
+        {
+            int spriteId = 0;
+
+            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Road)
+            {
+                spriteId = 1;
+                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Road)
+                {
+                    spriteId = 8;
+                    if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
+                    {
+                        spriteId = 7;
+
+                        if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
+                        {
+                            spriteId = 6;
+                        }
+                    }
+                }
+                else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
+                {
+                    spriteId = 10; 
+
+                    if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
+                    {
+                        spriteId = 2;
+                    }
+                }
+            }
+            else if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
+            {
+                spriteId = 1;
+                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Road)
+                {
+                    spriteId = 9;
+                    if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
+                    {
+                        spriteId = 5;
+
+                        if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Road)
+                        {
+                            spriteId = 6;
+                        }
+                    }
+                }
+                else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
+                {
+                    spriteId = 11;
+
+                    if (i + 1 > 0 && map[i + 1, j].terrain == TypeOfTerrain.Road)
+                    {
+                        spriteId = 2;
+                    }
+                }
+            }
+            else spriteId = 3;
+
+            return spriteId;
+        }
+
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             Bitmap bitmap = new Bitmap(800, 800);
@@ -346,6 +419,7 @@ namespace MapEditor
                     this.Invalidate();
                     break;
                 case "Save":
+                    IndicateRoadSprite();
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     saveFileDialog.Filter = "WC|*.wc";
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
