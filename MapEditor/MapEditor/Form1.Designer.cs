@@ -227,18 +227,6 @@ namespace MapEditor
         {
             switch ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()))
             {
-                case TypeOfTerrain.Earth:
-                    return 8;
-                case TypeOfTerrain.Water:
-                    return 8;
-                case TypeOfTerrain.Road:
-                    return 8;
-                case TypeOfTerrain.Tree:
-                    return 8;
-                case TypeOfTerrain.Mine:
-                    return 16;
-                case TypeOfTerrain.Bridge:
-                    return 8;
             }
             return 8;
         }
@@ -246,18 +234,6 @@ namespace MapEditor
         {
             switch ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()))
             {
-                case TypeOfTerrain.Earth:
-                    return new Point(8, 8);
-                case TypeOfTerrain.Water:
-                    return new Point(8, 8);
-                case TypeOfTerrain.Road:
-                    return new Point(8, 8);
-                case TypeOfTerrain.Tree:
-                    return new Point(8, 8);
-                case TypeOfTerrain.Mine:
-                    return new Point(16, 16);
-                case TypeOfTerrain.Bridge:
-                    return new Point(8, 8);
             }
             return new Point(8, 8);
         }
@@ -287,16 +263,6 @@ namespace MapEditor
             {
                 case TypeOfTerrain.Earth:
                     return 8;
-                case TypeOfTerrain.Water:
-                    return 8;
-                case TypeOfTerrain.Road:
-                    return 8;
-                case TypeOfTerrain.Tree:
-                    return 8;
-                case TypeOfTerrain.Mine:
-                    return 16;
-                case TypeOfTerrain.Bridge:
-                    return 8;
             }
             return 8;
         }
@@ -304,17 +270,8 @@ namespace MapEditor
         {
             switch (field.terrain)
             {
-                case TypeOfTerrain.Earth:
-                    return new Point(8, 8);
-                case TypeOfTerrain.Water:
-                    return new Point(8, 8);
-                case TypeOfTerrain.Road:
-                    return new Point(8, 8);
-                case TypeOfTerrain.Tree:
-                    return new Point(8, 8);
                 case TypeOfTerrain.Mine:
-                    return new Point(16, 16);
-                case TypeOfTerrain.Bridge:
+                    //return new Point(16, 16);
                     return new Point(8, 8);
             }
             return new Point(8, 8);
@@ -357,10 +314,10 @@ namespace MapEditor
                     map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Tree;
                     break;
                 case TypeOfTerrain.Mine:
-                    map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Tree;
-                    map[(int)e.Location.X / GetSize() + 1, (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Tree;
-                    map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize() + 1].terrain = TypeOfTerrain.Tree;
-                    map[(int)e.Location.X / GetSize() + 1, (int)e.Location.Y / GetSize() + 1].terrain = TypeOfTerrain.Tree;
+                    map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Mine;
+                    //map[(int)e.Location.X / GetSize() + 1, (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Mine;
+                    //map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize() + 1].terrain = TypeOfTerrain.Mine;
+                    //map[(int)e.Location.X / GetSize() + 1, (int)e.Location.Y / GetSize() + 1].terrain = TypeOfTerrain.Mine;
                     break;
                 case TypeOfTerrain.Bridge:
                     map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Bridge;
@@ -391,6 +348,17 @@ namespace MapEditor
                 }
             }
         }
+        private void IndicateTreeSprite()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    if (map[i, j].terrain == TypeOfTerrain.Tree)
+                        map[i, j].spriteId = CheckAllTreeVariants(i, j);
+                }
+            }
+        }
         private void IndicateEarthSprite()
         {
             for (int i = 0; i < 100; i++)
@@ -402,7 +370,72 @@ namespace MapEditor
                 }
             }
         }
+        
 
+        private int CheckAllTreeVariants(int i, int j)
+        {
+            int spriteId = 0;
+            bool left = false;
+            bool right = false;
+            bool up = false;
+            bool down = false;
+
+            if(i - 1 < 0 || map[i - 1, j].terrain == TypeOfTerrain.Tree)
+            {
+                left = true;
+            }
+            if (i + 1 >= 100 || map[i + 1, j].terrain == TypeOfTerrain.Tree)
+            {
+                right = true;
+            }
+            if (j - 1 < 0 || map[i , j - 1].terrain == TypeOfTerrain.Tree)
+            {
+                up = true;
+            }
+            if (j + 1 >= 100 || map[i , j + 1].terrain == TypeOfTerrain.Tree)
+            {
+                down = true;
+            }
+
+            if (left && right && up && down)
+            {
+                spriteId = 5;
+            }
+            else if(left && right && down)
+            {
+                spriteId = 2;
+            }
+            else if (left && right && up)
+            {
+                spriteId = 8;
+            }
+            else if (down && right && up)
+            {
+                spriteId = 4;
+            }
+            else if (down && left && up)
+            {
+                spriteId = 6;
+            }
+            else if (down && left)
+            {
+                spriteId = 3;
+            }
+            else if (up && left)
+            {
+                spriteId = 9;
+            }
+            else if (up && right)
+            {
+                spriteId = 7;
+            }
+            else if (down && right)
+            {
+                spriteId = 1;
+            }
+
+            return spriteId;
+        }
         private int CheckAllRoadVariants(int i, int j)
         {
             int spriteId = 0;
@@ -681,7 +714,7 @@ namespace MapEditor
                     IndicateRoadSprite();
                     IndicateWaterSprite();
                     IndicateEarthSprite();
-
+                    IndicateTreeSprite();
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     saveFileDialog.Filter = "WC|*.wc";
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)

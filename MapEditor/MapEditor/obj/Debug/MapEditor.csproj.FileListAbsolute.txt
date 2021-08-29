@@ -10,3 +10,15 @@ C:\Users\Crustbrns\source\repos\PND-War\MapEditor1\MapEditor\MapEditor\bin\Debug
 C:\Users\Crustbrns\source\repos\PND-War\MapEditor1\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.CopyComplete
 C:\Users\Crustbrns\source\repos\PND-War\MapEditor1\MapEditor\MapEditor\obj\Debug\MapEditor.exe
 C:\Users\Crustbrns\source\repos\PND-War\MapEditor1\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.AssemblyReference.cache
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.cache
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.CoreCompileInputs.cache
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.CopyComplete
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+C:\Users\Al\Source\Repos\MapEditor+\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
