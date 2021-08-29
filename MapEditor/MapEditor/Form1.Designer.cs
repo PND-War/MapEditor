@@ -320,6 +320,29 @@ namespace MapEditor
             }
         }
 
+        private void IndicateWaterSprite()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    if (map[i, j].terrain == TypeOfTerrain.Water)
+                        map[i, j].spriteId = CheckAllWaterVariants(i, j);
+                }
+            }
+        }
+        private void IndicateEarthSprite()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    if (map[i, j].terrain == TypeOfTerrain.Earth)
+                        map[i, j].spriteId = CheckAllEarthVariants(i, j);
+                }
+            }
+        }
+
         private int CheckAllRoadVariants(int i, int j)
         {
             int spriteId = 0;
@@ -342,7 +365,7 @@ namespace MapEditor
                 }
                 else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
                 {
-                    spriteId = 10; 
+                    spriteId = 10;
 
                     if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
                     {
@@ -380,7 +403,124 @@ namespace MapEditor
 
             return spriteId;
         }
+        private int CheckAllWaterVariants(int i, int j)
+        {
+            int spriteId = 17;
 
+            if (i - 1 > 0 && (map[i - 1, j].terrain == TypeOfTerrain.Earth))
+            {
+                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Earth)
+                {
+                    spriteId = 85;
+                    if (map[i - 1, j + 1].terrain == TypeOfTerrain.Earth || map[i - 1, j - 1].terrain == TypeOfTerrain.Earth)
+                        spriteId = 5;
+                }
+                else if ((j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Earth))
+                {
+                    spriteId = 83;
+                    if (map[i + 1, j + 1].terrain == TypeOfTerrain.Earth || map[i - 1, j - 1].terrain == TypeOfTerrain.Earth)
+                        spriteId = 11;
+                }
+            }
+
+            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Earth)
+            {
+                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Earth)
+                {
+                    spriteId = 6;
+                    if (map[i - 1, j + 1].terrain == TypeOfTerrain.Earth || map[i + 1, j - 1].terrain == TypeOfTerrain.Earth)
+                        spriteId = 84;
+                }
+                else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Earth)
+                {
+                    spriteId = 12;
+                    if (map[i - 1, j - 1].terrain == TypeOfTerrain.Earth || map[i + 1, j + 1].terrain == TypeOfTerrain.Earth)
+                        spriteId = 82;
+                }
+            }
+
+            return spriteId;
+        }
+
+        private int CheckAllEarthVariants(int i, int j)
+        {
+            int spriteId = 81;
+
+            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Water)
+            {
+                spriteId = 8;
+                if (j - 1 > 0 && map[i + 1, j - 1].terrain == TypeOfTerrain.Earth)
+                {
+                    if (j + 1 < 100 && map[i - 1, j + 1].terrain == TypeOfTerrain.Earth)
+                    {
+                        spriteId = 4;
+                    }
+                }
+
+                if (j + 1 < 100 && map[i + 1, j + 1].terrain == TypeOfTerrain.Earth)
+                {
+                    if (j - 1 > 0 && map[i - 1, j - 1].terrain == TypeOfTerrain.Earth)
+                    {
+                        spriteId = 10;
+                    }
+                }
+            }
+
+            return spriteId;
+        }
+
+        private int OLDCheckAllEarthVariants(int i, int j)
+        {
+            int spriteId = 0;
+
+            // Po krayam
+            if ((i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Earth))
+            {
+                if (j + 1 < 100 && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
+                    spriteId = 18;
+                else if (j - 1 > 0 && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
+                    spriteId = 18;
+                else spriteId = 81;
+            }
+
+            // Sprava
+            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Water)
+            {
+                spriteId = 8;
+                if ((i + 1 < 100 && j - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
+                {
+                    spriteId = 10;
+
+                    if ((i + 1 < 100 && j + 1 < 100) && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
+                    {
+                        spriteId = 8;
+
+                    }
+                    else if ((i + 1 < 100 && j + 1 < 100) && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
+                        spriteId = 4;
+                }
+
+            }
+
+            // Sverhy
+            if (i + 1 < 100 && map[i + 1, j].terrain != TypeOfTerrain.Water)
+            {
+                if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Water)
+                {
+                    spriteId = 15;
+                    if ((i + 1 < 100 && j - 1 > 0) && map[i + 1, j - 1].terrain == TypeOfTerrain.Water)
+                    {
+                        spriteId = 14;
+                        if ((i - 1 > 0 && j - 1 > 0) && map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
+                            spriteId = 15;
+                    }
+                    else if ((i - 1 > 0 && j - 1 > 0) && map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
+                        spriteId = 12;
+                }
+            }
+
+            return spriteId;
+        }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             Bitmap bitmap = new Bitmap(800, 800);
@@ -420,6 +560,9 @@ namespace MapEditor
                     break;
                 case "Save":
                     IndicateRoadSprite();
+                    IndicateWaterSprite();
+                    IndicateEarthSprite();
+
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     saveFileDialog.Filter = "WC|*.wc";
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
