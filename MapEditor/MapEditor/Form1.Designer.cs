@@ -595,6 +595,10 @@ namespace MapEditor
                 {
                     spriteId = 84;
                 }
+                else if((i + 1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i - 1, j - 1].terrain != TypeOfTerrain.Water && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
+                {
+                    spriteId = 84;
+                }
                 //if ((i + 1 < 100 && j + 2 < 100) && map[i + 1, j + 2].terrain == TypeOfTerrain.Water)
                 //{
                 //    spriteId = 3;
