@@ -378,7 +378,7 @@ namespace MapEditor
                 for (int j = 0; j < 100; j++)
                 {
                     if (map[i, j].terrain == TypeOfTerrain.Mine)
-                        map[i, j].spriteId = CheckAllMineVariants(i, j);
+                        CheckAllMineVariants(i, j);
                 }
             }
         }
@@ -606,26 +606,34 @@ namespace MapEditor
 
             return spriteId;
         }
-        private int CheckAllMineVariants(int i, int j)
+        private void CheckAllMineVariants(int i, int j)
         {
-            int spriteId = 1;
-
-            bool left = false;
-            bool right = false;
             bool up = false;
-            bool down = false;
+            bool left = false;
+
+            bool right = false;
+            bool rightsecond = false;
+
+            if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Mine) up = true;
+            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Mine) left = true;
 
             if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Mine) right = true;
-            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Mine) left = true;
-            if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Mine) up = true;
-            if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Mine) down = true;
+            if (i + 2 < 100 && map[i + 2, j].terrain == TypeOfTerrain.Mine) rightsecond = true;
 
-            if (left && up) spriteId = 2;
-            else if (left && down) spriteId = 4;
-            else if (right && down) spriteId = 3;
-            else if (right && up) spriteId = 1;
+            if (!up && !left && right && rightsecond)
+            {
+                map[i, j].spriteId = 1;
+                map[i + 1, j].spriteId = 2;
+                map[i + 2, j].spriteId = 3;
 
-            return spriteId;
+                map[i, j + 1].spriteId = 4;
+                map[i + 1, j + 1].spriteId = 5;
+                map[i + 2, j + 1].spriteId = 6;
+
+                map[i, j + 2].spriteId = 7;
+                map[i + 1, j + 2].spriteId = 8;
+                map[i + 2, j + 2].spriteId = 9;
+            }
         }
         private void CheckAllBridgeVariants(int i, int j)
         {
