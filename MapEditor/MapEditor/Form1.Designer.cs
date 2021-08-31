@@ -371,6 +371,28 @@ namespace MapEditor
             }
         }
 
+        private void IndicateMineSprite()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    if (map[i, j].terrain == TypeOfTerrain.Mine)
+                        map[i, j].spriteId = CheckAllMineVariants(i, j);
+                }
+            }
+        }
+        private void IndicateBridgeSprite()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    if (map[i, j].terrain == TypeOfTerrain.Bridge)
+                        CheckAllBridgeVariants(i, j);
+                }
+            }
+        }
 
         private int CheckAllTreeVariants(int i, int j)
         {
@@ -463,60 +485,6 @@ namespace MapEditor
             else if (up || down) spriteId = 3;
             else spriteId = 3;
 
-            //if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Road)
-            //{
-            //    spriteId = 1;
-            //    if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Road)
-            //    {
-            //        spriteId = 8;
-            //        if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
-            //        {
-            //            spriteId = 7;
-
-            //            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
-            //            {
-            //                spriteId = 6;
-            //            }
-            //        }
-            //    }
-            //    else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
-            //    {
-            //        spriteId = 10;
-
-            //        if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
-            //        {
-            //            spriteId = 2;
-            //        }
-            //    }
-            //}
-            //else if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Road)
-            //{
-            //    spriteId = 1;
-            //    if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Road)
-            //    {
-            //        spriteId = 9;
-            //        if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
-            //        {
-            //            spriteId = 5;
-
-            //            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Road)
-            //            {
-            //                spriteId = 6;
-            //            }
-            //        }
-            //    }
-            //    else if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Road)
-            //    {
-            //        spriteId = 11;
-
-            //        if (i + 1 > 0 && map[i + 1, j].terrain == TypeOfTerrain.Road)
-            //        {
-            //            spriteId = 2;
-            //        }
-            //    }
-            //}
-            //else spriteId = 3;
-
             return spriteId;
         }
         private int CheckAllWaterVariants(int i, int j)
@@ -540,10 +508,9 @@ namespace MapEditor
 
             return spriteId;
         }
-
         private int CheckAllEarthVariants(int i, int j)
         {
-            int spriteId = 81;
+            int spriteId = 75;
 
             bool left = false;
             bool right = false;
@@ -558,9 +525,9 @@ namespace MapEditor
             if (right && down)
             {
                 spriteId = 4;
-                if ((i+1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i+1, j+1].terrain == TypeOfTerrain.Water || map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
+                if ((i + 1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i + 1, j + 1].terrain == TypeOfTerrain.Water || map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
                 {
-                    spriteId = 85;
+                    spriteId = 79;
                 }
                 //if ((i - 1 > 0 && j + 2 < 100) && map[i - 1, j + 2].terrain == TypeOfTerrain.Water)
                 //{
@@ -572,7 +539,7 @@ namespace MapEditor
                 spriteId = 13;
                 if ((i + 1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i + 1, j + 1].terrain == TypeOfTerrain.Water || map[i - 1, j - 1].terrain == TypeOfTerrain.Water)
                 {
-                    spriteId = 82;
+                    spriteId = 76;
                 }
                 //if ((i + 1 < 100 && j - 2 > 0) && map[i + 1, j - 2].terrain == TypeOfTerrain.Water)
                 //{
@@ -582,7 +549,7 @@ namespace MapEditor
             else if (right && up)
             {
                 //spriteId = 14;
-                spriteId = 83;
+                spriteId = 77;
                 //if ((i - 1 > 0 && j - 2 > 0) && map[i - 1, j - 2].terrain == TypeOfTerrain.Water)
                 //{
                 //    spriteId = 10;
@@ -593,11 +560,11 @@ namespace MapEditor
                 spriteId = 7;
                 if ((i + 1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i - 1, j - 1].terrain == TypeOfTerrain.Water && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
                 {
-                    spriteId = 84;
+                    spriteId = 78;
                 }
-                else if((i + 1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i - 1, j - 1].terrain != TypeOfTerrain.Water && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
+                else if ((i + 1 < 100 && i - 1 > 0 && j - 1 > 0 && j + 1 < 100) && map[i - 1, j - 1].terrain != TypeOfTerrain.Water && map[i + 1, j + 1].terrain == TypeOfTerrain.Water)
                 {
-                    spriteId = 84;
+                    spriteId = 80;
                 }
                 //if ((i + 1 < 100 && j + 2 < 100) && map[i + 1, j + 2].terrain == TypeOfTerrain.Water)
                 //{
@@ -608,9 +575,9 @@ namespace MapEditor
             {
                 spriteId = 8;
                 if (i + 1 < 100 && map[i + 1, j].spriteId == 5)
-                spriteId = 4;
+                    spriteId = 4;
                 if (i + 1 < 100 && map[i + 1, j].spriteId == 11)
-                spriteId = 10;
+                    spriteId = 10;
             }
             else if (left)
             {
@@ -638,6 +605,90 @@ namespace MapEditor
             }
 
             return spriteId;
+        }
+        private int CheckAllMineVariants(int i, int j)
+        {
+            int spriteId = 1;
+
+            bool left = false;
+            bool right = false;
+            bool up = false;
+            bool down = false;
+
+            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Mine) right = true;
+            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Mine) left = true;
+            if (j + 1 < 100 && map[i, j + 1].terrain == TypeOfTerrain.Mine) up = true;
+            if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Mine) down = true;
+
+            if (left && up) spriteId = 2;
+            else if (left && down) spriteId = 4;
+            else if (right && down) spriteId = 3;
+            else if (right && up) spriteId = 1;
+
+            return spriteId;
+        }
+        private void CheckAllBridgeVariants(int i, int j)
+        {
+            bool up = false;
+            bool left = false;
+
+            bool right = false;
+            bool rightsecond = false;
+            bool rightthird = false;
+            bool rightfourth = false;
+
+            if (j - 1 > 0 && map[i, j - 1].terrain == TypeOfTerrain.Bridge) up = true;
+            if (i - 1 > 0 && map[i - 1, j].terrain == TypeOfTerrain.Bridge) left = true;
+
+            if (i + 1 < 100 && map[i + 1, j].terrain == TypeOfTerrain.Bridge) right = true;
+            if (i + 2 < 100 && map[i + 2, j].terrain == TypeOfTerrain.Bridge) rightsecond = true;
+            if (i + 3 < 100 && map[i + 3, j].terrain == TypeOfTerrain.Bridge) rightthird = true;
+            if (i + 4 < 100 && map[i + 4, j].terrain == TypeOfTerrain.Bridge) rightfourth = true;
+
+            if (!up && !left && right && rightsecond)
+            {
+                map[i, j].spriteId = 1;
+                map[i + 1, j].spriteId = 2;
+                map[i + 2, j].spriteId = 3;
+
+                map[i, j + 1].spriteId = 4;
+                map[i + 1, j + 1].spriteId = 5;
+                map[i + 2, j + 1].spriteId = 6;
+
+                map[i, j + 2].spriteId = 7;
+                map[i + 1, j + 2].spriteId = 8;
+                map[i + 2, j + 2].spriteId = 9;
+
+                map[i, j + 3].spriteId = 10;
+                map[i + 1, j + 3].spriteId = 11;
+                map[i + 2, j + 3].spriteId = 12;
+
+                map[i, j + 4].spriteId = 13;
+                map[i + 1, j + 4].spriteId = 14;
+                map[i + 2, j + 4].spriteId = 15;
+            }
+            if (!up && !left && right && rightsecond && rightthird && rightfourth)
+            {
+                map[i, j].spriteId = 16;
+                map[i, j + 1].spriteId = 21;
+                map[i, j + 2].spriteId = 26;
+
+                map[i + 1, j].spriteId = 17;
+                map[i + 1, j + 1].spriteId = 22;
+                map[i + 1, j + 2].spriteId = 27;
+
+                map[i + 2, j].spriteId = 18;
+                map[i + 2, j + 1].spriteId = 23;
+                map[i + 2, j + 2].spriteId = 28;
+
+                map[i + 3, j].spriteId = 19;
+                map[i + 3, j + 1].spriteId = 24;
+                map[i + 3, j + 2].spriteId = 29;
+
+                map[i + 4, j].spriteId = 20;
+                map[i + 4, j + 1].spriteId = 25;
+                map[i + 4, j + 2].spriteId = 30;
+            }
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -687,10 +738,13 @@ namespace MapEditor
                     this.Invalidate();
                     break;
                 case "Save":
+                    IndicateBridgeSprite();
                     IndicateRoadSprite();
                     IndicateWaterSprite();
                     IndicateEarthSprite();
                     IndicateTreeSprite();
+                    IndicateMineSprite();
+
                     SaveFileDialog saveFileDialog = new SaveFileDialog();
                     saveFileDialog.Filter = "WC|*.wc";
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
