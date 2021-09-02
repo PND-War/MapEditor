@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace MapEditor
 {
-    enum TypeOfTerrain
+    public enum TypeOfTerrain
     {
         Earth,
         Water,
@@ -16,7 +11,7 @@ namespace MapEditor
         Mine,
         Bridge
     }
-    class Field
+    public class Field
     {
         public TypeOfTerrain terrain { get; set; }
         public bool cheked { get; set; } = false;

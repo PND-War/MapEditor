@@ -735,7 +735,7 @@ namespace MapEditor
                     OpenFileDialog openFileDialog = new OpenFileDialog();
                     openFileDialog.Filter = "WC|*.wc";
 
-                    if (openFileDialog.ShowDialog() == DialogResult.OK) map = JsonConvert.DeserializeObject<Field[,]>(File.ReadAllText(openFileDialog.FileName));
+                    if (openFileDialog.ShowDialog() == DialogResult.OK) map = JsonConvert.DeserializeObject<Map>(File.ReadAllText(openFileDialog.FileName)).map;
 
                     for (int i = 0; i < 100; i++)
                     {
@@ -761,11 +761,11 @@ namespace MapEditor
                         if (!File.Exists(saveFileDialog.FileName))
                         {
                             File.Create(saveFileDialog.FileName).Close();
-                            File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(map));
+                            File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(new Map(map)));
                         }
                         else
                         {
-                            File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(map));
+                            File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(new Map(map)));
                         }
                     }
                     this.Invalidate();
