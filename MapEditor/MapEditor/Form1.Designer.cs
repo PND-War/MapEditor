@@ -226,16 +226,16 @@ namespace MapEditor
         }
         private int GetSize()
         {
-            switch ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()))
-            {
-            }
+            //switch ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()))
+            //{
+            //}
             return 8;
         }
         private Point GetPointSize()
         {
-            switch ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()))
-            {
-            }
+            //switch ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()))
+            //{
+            //}
             return new Point(8, 8);
         }
 

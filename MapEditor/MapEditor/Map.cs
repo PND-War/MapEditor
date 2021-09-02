@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace MapEditor
 {
@@ -11,6 +12,8 @@ namespace MapEditor
         public int Gold;
         [DataMember]
         public Field[,] map { get; set; }
+        [DataMember]
+        public List<AUnit> units;
         public Map(Field[,] mapTo)
         {
             map = mapTo;
