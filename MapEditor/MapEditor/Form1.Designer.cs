@@ -512,7 +512,7 @@ namespace MapEditor
         }
         private int CheckAllEarthVariants(int i, int j)
         {
-            int spriteId = RandomizeGround();
+            int spriteId = RandomizeGround(new Random(50));
 
             bool left = false;
             bool right = false;
@@ -592,9 +592,9 @@ namespace MapEditor
             return spriteId;
         }
 
-        private int RandomizeGround()
+        private int RandomizeGround(int Rand)
         {
-            int RandomVariant = new Random().Next(20);
+            int RandomVariant = Rand;
 
             int[] Rock1 = { 1, 2 };
             int[] Rock2 = { 3, 4 };
