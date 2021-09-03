@@ -1,5 +1,6 @@
 ﻿
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -511,7 +512,7 @@ namespace MapEditor
         }
         private int CheckAllEarthVariants(int i, int j)
         {
-            int spriteId = 75;
+            int spriteId = RandomizeGround();
 
             bool left = false;
             bool right = false;
@@ -530,10 +531,6 @@ namespace MapEditor
                 {
                     spriteId = 79;
                 }
-                //if ((i - 1 > 0 && j + 2 < 100) && map[i - 1, j + 2].terrain == TypeOfTerrain.Water)
-                //{
-                //    spriteId = 1;
-                //}
             }
             else if (left && up)
             {
@@ -542,19 +539,10 @@ namespace MapEditor
                 {
                     spriteId = 76;
                 }
-                //if ((i + 1 < 100 && j - 2 > 0) && map[i + 1, j - 2].terrain == TypeOfTerrain.Water)
-                //{
-                //    spriteId = 16;
-                //}
             }
             else if (right && up)
             {
-                //spriteId = 14;
                 spriteId = 77;
-                //if ((i - 1 > 0 && j - 2 > 0) && map[i - 1, j - 2].terrain == TypeOfTerrain.Water)
-                //{
-                //    spriteId = 10;
-                //}
             }
             else if (left && down)
             {
@@ -567,10 +555,6 @@ namespace MapEditor
                 {
                     spriteId = 80;
                 }
-                //if ((i + 1 < 100 && j + 2 < 100) && map[i + 1, j + 2].terrain == TypeOfTerrain.Water)
-                //{
-                //    spriteId = 3;
-                //}
             }
             else if (right)
             {
@@ -606,6 +590,24 @@ namespace MapEditor
             }
 
             return spriteId;
+        }
+
+        private int RandomizeGround()
+        {
+            int RandomVariant = new Random().Next(20);
+
+            int[] Rock1 = { 1, 2 };
+            int[] Rock2 = { 3, 4 };
+            int[] Rock3 = { 5, 6 };
+            int[] Crater1 = { 7 };
+            int[] Crater2 = { 8 };
+
+            if (Rock1.Contains(RandomVariant)) return 69;
+            else if (Rock2.Contains(RandomVariant)) return 70;
+            else if (Rock3.Contains(RandomVariant)) return 71;
+            else if (Crater1.Contains(RandomVariant)) return 72;
+            else if (Crater2.Contains(RandomVariant)) return 73;
+            else return 75;
         }
         private void CheckAllMineVariants(int i, int j)
         {
