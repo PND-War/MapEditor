@@ -13,6 +13,7 @@ namespace MapEditor
     {
         string imagePath = string.Empty;
         Color currentColor = Color.Black;
+        Random Random = new Random();
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -512,7 +513,7 @@ namespace MapEditor
         }
         private int CheckAllEarthVariants(int i, int j)
         {
-            int spriteId = RandomizeGround(new Random(50));
+            int spriteId = RandomizeGround(Random.Next(150));
 
             bool left = false;
             bool right = false;
