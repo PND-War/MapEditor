@@ -11,6 +11,8 @@ namespace MapEditor
 {
     partial class Form1
     {
+        Point point;
+
         string imagePath = string.Empty;
         Color currentColor = Color.Black;
         Random Random = new Random();
@@ -40,20 +42,24 @@ namespace MapEditor
         /// </summary>
         private void InitializeComponent()
         {
-            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = FormBorderStyle.None;
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 800);
+            this.ClientSize = new System.Drawing.Size(940, 830);
             this.Text = "MapEditor++";
             this.ShowIcon = false;
             this.MinimumSize = new Size(900, 800);
+            this.Opacity = 0.12;
 
             this.Earth = new System.Windows.Forms.RadioButton();
             this.Water = new System.Windows.Forms.RadioButton();
             this.Road = new System.Windows.Forms.RadioButton();
             this.Tree = new System.Windows.Forms.RadioButton();
             this.Mine = new System.Windows.Forms.RadioButton();
-            this.Bridge = new System.Windows.Forms.RadioButton();
+            this.BridgeVert = new System.Windows.Forms.RadioButton();
+            this.BridgeHori = new System.Windows.Forms.RadioButton();
+            this.TownhallHuman = new System.Windows.Forms.RadioButton();
+            this.TownhallOrcs = new System.Windows.Forms.RadioButton();
 
             // 
             // Earth
@@ -66,6 +72,8 @@ namespace MapEditor
             this.Earth.TabStop = true;
             this.Earth.Text = "Earth";
             this.Earth.UseVisualStyleBackColor = true;
+            this.Earth.ForeColor = Color.FromArgb(255, 168, 168, 168);
+            this.Earth.Font = new Font("Consolas", 12);
             // 
             // Water
             // 
@@ -77,6 +85,8 @@ namespace MapEditor
             this.Water.TabStop = true;
             this.Water.Text = "Water";
             this.Water.UseVisualStyleBackColor = true;
+            this.Water.ForeColor = Color.FromArgb(255, 168, 168, 168);
+            this.Water.Font = new Font("Consolas", 12);
             // 
             // Road
             // 
@@ -88,6 +98,8 @@ namespace MapEditor
             this.Road.TabStop = true;
             this.Road.Text = "Road";
             this.Road.UseVisualStyleBackColor = true;
+            this.Road.ForeColor = Color.FromArgb(255, 168, 168, 168);
+            this.Road.Font = new Font("Consolas", 12);
             // 
             // Tree
             // 
@@ -99,6 +111,8 @@ namespace MapEditor
             this.Tree.TabStop = true;
             this.Tree.Text = "Tree";
             this.Tree.UseVisualStyleBackColor = true;
+            this.Tree.ForeColor = Color.FromArgb(255, 168, 168, 168);
+            this.Tree.Font = new Font("Consolas", 12);
             // 
             // Mine
             // 
@@ -110,28 +124,114 @@ namespace MapEditor
             this.Mine.TabStop = true;
             this.Mine.Text = "Mine";
             this.Mine.UseVisualStyleBackColor = true;
+            this.Mine.ForeColor = Color.FromArgb(255, 168, 168, 168);
+            this.Mine.Font = new Font("Consolas", 12);
             // 
-            // Bridge
+            // BridgeVert
             // 
-            this.Bridge.AutoSize = true;
-            this.Bridge.Location = new System.Drawing.Point(10, 126);
-            this.Bridge.Name = "Bridge";
-            this.Bridge.Size = new System.Drawing.Size(55, 17);
-            this.Bridge.TabIndex = 5;
-            this.Bridge.TabStop = true;
-            this.Bridge.Text = "Bridge";
-            this.Bridge.UseVisualStyleBackColor = true;
+            this.BridgeVert.AutoSize = true;
+            this.BridgeVert.Location = new System.Drawing.Point(10, 126);
+            this.BridgeVert.Name = "BridgeVert";
+            this.BridgeVert.Size = new System.Drawing.Size(55, 17);
+            this.BridgeVert.TabIndex = 5;
+            this.BridgeVert.TabStop = true;
+            this.BridgeVert.Text = "BridgeVert";
+            this.BridgeVert.UseVisualStyleBackColor = true;
+            this.BridgeVert.ForeColor = Color.FromArgb(255, 168, 168, 168);
+            this.BridgeVert.Font = new Font("Consolas", 12);
             //
             // BridgeHori
             //
-            this.Bridge.AutoSize = true;
-            this.Bridge.Location = new System.Drawing.Point(10, 149);
-            this.Bridge.Name = "BridgeHori";
-            this.Bridge.Size = new System.Drawing.Size(55, 17);
-            this.Bridge.TabIndex = 6;
-            this.Bridge.TabStop = true;
-            this.Bridge.Text = "BridgeHori";
-            this.Bridge.UseVisualStyleBackColor = true;
+            this.BridgeHori.AutoSize = true;
+            this.BridgeHori.Location = new System.Drawing.Point(10, 149);
+            this.BridgeHori.Name = "BridgeHori";
+            this.BridgeHori.Size = new System.Drawing.Size(55, 17);
+            this.BridgeHori.TabIndex = 6;
+            this.BridgeHori.TabStop = true;
+            this.BridgeHori.Text = "BridgeHori";
+            this.BridgeHori.UseVisualStyleBackColor = true;
+            this.BridgeHori.ForeColor = Color.FromArgb(255, 168, 168, 168);
+            this.BridgeHori.Font = new Font("Consolas", 12);
+            //
+            // TownhallHuman
+            //
+            this.TownhallHuman.AutoSize = true;
+            this.TownhallHuman.Location = new System.Drawing.Point(10, 172);
+            this.TownhallHuman.Name = "TownhallHuman";
+            this.TownhallHuman.Size = new System.Drawing.Size(55, 17);
+            this.TownhallHuman.TabIndex = 7;
+            this.TownhallHuman.TabStop = true;
+            this.TownhallHuman.Text = "TownhallHum";
+            this.TownhallHuman.UseVisualStyleBackColor = true;
+            this.TownhallHuman.ForeColor = Color.FromArgb(255, 168, 168, 168);
+            this.TownhallHuman.Font = new Font("Consolas", 12);
+            //
+            // TownhallOrcs
+            //
+            this.TownhallOrcs.AutoSize = true;
+            this.TownhallOrcs.Location = new System.Drawing.Point(10, 195);
+            this.TownhallOrcs.Name = "TownhallOrcs";
+            this.TownhallOrcs.Size = new System.Drawing.Size(55, 17);
+            this.TownhallOrcs.TabIndex = 8;
+            this.TownhallOrcs.TabStop = true;
+            this.TownhallOrcs.Text = "TownhallOrc";
+            this.TownhallOrcs.UseVisualStyleBackColor = true;
+            this.TownhallOrcs.ForeColor = Color.FromArgb(255, 168, 168, 168);
+            this.TownhallOrcs.Font = new Font("Consolas", 12);
+
+            UpperPanel = new Panel()
+            {
+                Name = "UpperPanel",
+                BackColor = Color.FromArgb(255, 83, 83, 83),
+                Location = new Point(0, 0),
+                Size = new Size(this.Size.Width, 30)
+            };
+
+            UpperPanel.MouseDown += (args, e) =>
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    point = new Point(e.X, e.Y);
+                }
+            };
+
+            UpperPanel.MouseMove += (args, e) =>
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    Point Delta = new Point(point.X - this.Location.X, point.Y - this.Location.Y);
+                    this.Location = new Point(this.Location.X + e.X - point.X, this.Location.Y + e.Y - point.Y);
+                }
+            };
+
+            Exit = new Button()
+            {
+                Name = "Exit",
+                Text = "×",
+                Location = new Point(this.Size.Width - 30, 0),
+                Size = new Size(30, 30),
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = Color.FromArgb(255, 168, 168, 168),
+                Font = new Font("Consolas", 15)
+            };
+            Exit.FlatAppearance.BorderSize = 0;
+            Exit.MouseClick += (args, e) => { this.Close(); };
+
+            Minimize = new Button()
+            {
+                Name = "Minimize",
+                Text = "-",
+                Location = new Point(this.Size.Width - 60, 0),
+                Size = new Size(30, 30),
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = Color.FromArgb(255, 168, 168, 168),
+                Font = new Font("Consolas", 15)
+            };
+            Minimize.FlatAppearance.BorderSize = 0;
+            Minimize.MouseClick += (args, e) => { this.WindowState = FormWindowState.Minimized; };
+
+            UpperPanel.Controls.Add(Exit);
+            UpperPanel.Controls.Add(Minimize);
 
             buttons = new List<Button>()
             {
@@ -139,43 +239,56 @@ namespace MapEditor
                 {
                     Text = "Save",
                     Name = "Save",
-                    Font = new Font("Consolas",10),
-                    Size = new Size(80,40),
-                    Location = new Point(10, 750),
-                    Anchor = AnchorStyles.Right
+                    Font = new Font("Consolas",12),
+                    Size = new Size(140,40),
+                    Location = new Point(0, 760),
+                    Anchor = AnchorStyles.Right,
+                    FlatStyle = FlatStyle.Flat,
+                    ForeColor = Color.FromArgb(255, 168, 168, 168),
+                    BackColor = Color.FromArgb(255, 60, 60, 60),
                 },
                 new Button()
                 {
                     Text = "Open",
                     Name = "Open",
-                    Font = new Font("Consolas",10),
-                    Size = new Size(80,40),
-                    Location = new Point(10,700),
-                    Anchor = AnchorStyles.Right
+                    Font = new Font("Consolas",12),
+                    Size = new Size(140,40),
+                    Location = new Point(0,720),
+                    Anchor = AnchorStyles.Right,
+                    FlatStyle = FlatStyle.Flat,
+                    ForeColor = Color.FromArgb(255, 168, 168, 168),
+                    BackColor = Color.FromArgb(255, 60, 60, 60),
                 },
                 new Button()
                 {
                     Text = "Clear",
                     Name = "Clear",
-                    Font = new Font("Consolas",10),
-                    Size = new Size(80,40),
-                    Location = new Point(10,650),
+                    Font = new Font("Consolas",12),
+                    Size = new Size(140,40),
+                    Location = new Point(0,680),
+                    FlatStyle = FlatStyle.Flat,
+                    ForeColor = Color.FromArgb(255, 168, 168, 168),
+                    BackColor = Color.FromArgb(255, 60, 60, 60),
                 },
                 new Button()
                 {
                     Text = "Fill",
                     Name = "Fill",
-                    Font = new Font("Consolas",10),
-                    Size = new Size(80,40),
-                    Location = new Point(10,600),
+                    Font = new Font("Consolas",12),
+                    Size = new Size(140,40),
+                    Location = new Point(0,640),
+                    FlatStyle = FlatStyle.Flat,
+                    ForeColor = Color.FromArgb(255, 168, 168, 168),
+                    BackColor = Color.FromArgb(255, 60, 60, 60),
                 },
             };
+            buttons.ForEach(x => x.FlatAppearance.BorderSize = 0);
 
             panel = new Panel()
             {
-                Size = new Size(100, 800),
-                Location = new Point(800, 0),
-                BackColor = Color.FromArgb(255, 220, 220, 220)
+                Size = new Size(140, 800),
+                Location = new Point(800, 30),
+                BackColor = Color.FromArgb(255, 66, 66, 66)
             };
 
             this.panel.Controls.Add(this.Earth);
@@ -183,18 +296,28 @@ namespace MapEditor
             this.panel.Controls.Add(this.Road);
             this.panel.Controls.Add(this.Tree);
             this.panel.Controls.Add(this.Mine);
-            this.panel.Controls.Add(this.Bridge);
+            this.panel.Controls.Add(this.BridgeVert);
+            this.panel.Controls.Add(this.BridgeHori);
+            this.panel.Controls.Add(this.TownhallHuman);
+            this.panel.Controls.Add(this.TownhallOrcs);
 
             paintField = new PictureBox()
             {
                 Size = new Size(800, 800),
-                Location = new Point(0, 0),
+                Location = new Point(0, 30),
                 BackColor = Color.FromArgb(255, 230, 230, 230)
             };
+
+
+            AppStartAnim = new Timer();
+            AppStartAnim.Interval = 1;
+            AppStartAnim.Tick += ChangeOpacity;
+            AppStartAnim.Start();
 
             buttons.ForEach(x => panel.Controls.Add(x));
             buttons.ForEach(x => x.MouseClick += X_MouseClick);
 
+            Controls.Add(UpperPanel);
             Controls.Add(panel);
             Controls.Add(paintField);
 
@@ -218,7 +341,7 @@ namespace MapEditor
                 case TypeOfTerrain.Road:
                     return Color.SandyBrown;
                 case TypeOfTerrain.Tree:
-                    return Color.Green;
+                    return Color.DarkGreen;
                 case TypeOfTerrain.Mine:
                     return Color.Yellow;
                 case TypeOfTerrain.Bridge:
@@ -775,19 +898,33 @@ namespace MapEditor
                     break;
             }
         }
+        private void ChangeOpacity(object sender, System.EventArgs e)
+        {
+            this.Opacity += 0.02;
+            if (this.Opacity >= 0.98)
+                AppStartAnim.Stop();
+        }
 
         private Panel panel;
         private List<Button> buttons;
         private PictureBox paintField;
 
-        private System.Windows.Forms.RadioButton Bridge;
+        private Panel UpperPanel;
+        private Button Minimize;
+        private Button Exit;
+
+        private System.Windows.Forms.RadioButton BridgeVert;
+        private System.Windows.Forms.RadioButton BridgeHori;
         private System.Windows.Forms.RadioButton Mine;
         private System.Windows.Forms.RadioButton Tree;
         private System.Windows.Forms.RadioButton Road;
         private System.Windows.Forms.RadioButton Water;
         private System.Windows.Forms.RadioButton Earth;
+        private System.Windows.Forms.RadioButton TownhallHuman;
+        private System.Windows.Forms.RadioButton TownhallOrcs;
 
         private List<Element> elements;
+        private Timer AppStartAnim;
         #endregion
     }
 }
