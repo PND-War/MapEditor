@@ -339,13 +339,19 @@ namespace MapEditor
                 case TypeOfTerrain.Water:
                     return Color.Blue;
                 case TypeOfTerrain.Road:
-                    return Color.SandyBrown;
+                    return Color.DarkSalmon;
                 case TypeOfTerrain.Tree:
                     return Color.DarkGreen;
                 case TypeOfTerrain.Mine:
                     return Color.Yellow;
                 case TypeOfTerrain.Bridge:
                     return Color.DarkOrange;
+                case TypeOfTerrain.BridgeHorizontal:
+                    return Color.DarkOrange;
+                case TypeOfTerrain.TownhallHum:
+                    return Color.DarkRed;
+                case TypeOfTerrain.TownhallOrc:
+                    return Color.DarkSlateBlue;
             }
             return Color.ForestGreen;
         }
@@ -407,8 +413,30 @@ namespace MapEditor
         {
             if (e.Button == MouseButtons.Left && ((e.Location.X > 0 && e.Location.X < 800) && (e.Location.Y > 0 && e.Location.Y < 800)))
             {
-                SaveTerrainsToMap(e);
-                elements.Add(new Element(new Size(GetPointSize()), new Point(e.Location.X / GetSize() * GetSize(), e.Location.Y / GetSize() * GetSize()), GetColor(), 2));
+                if ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()) < (TypeOfTerrain)4)
+                {
+                    SaveTerrainsToMap(e);
+                    elements.Add(new Element(new Size(GetPointSize()), new Point(MakeCorrect(e.Location.X), MakeCorrect(e.Location.Y)), GetColor(), 2));
+                }
+                else
+                {
+                    SaveTerrainsToMap(e);
+                    switch ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()))
+                    {
+                        case TypeOfTerrain.Mine:
+                            int diffX = e.Location.X / GetSize() % 3;
+                            int diffY = e.Location.Y / GetSize() % 3;
+
+                            for (int i = 0; i < 3; i++)
+                            {
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    elements.Add(new Element(new Size(GetPointSize()), new Point(MakeCorrect(e.Location.X) + ToSize(i) - ToSize(diffX), MakeCorrect(e.Location.Y) + ToSize(j) - ToSize(diffY)), GetColor(), 2));
+                                }
+                            }
+                            break;
+                    }
+                }
                 Invalidate();
             }
         }
@@ -417,8 +445,87 @@ namespace MapEditor
         {
             if (e.Button == MouseButtons.Left)
             {
-                SaveTerrainsToMap(e);
-                elements.Add(new Element(new Size(GetPointSize()), new Point(e.Location.X / GetSize() * GetSize(), e.Location.Y / GetSize() * GetSize()), GetColor(), 2));
+                if ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()) < (TypeOfTerrain)4)
+                {
+                    SaveTerrainsToMap(e);
+                    elements.Add(new Element(new Size(GetPointSize()), new Point(MakeCorrect(e.Location.X), MakeCorrect(e.Location.Y)), GetColor(), 2));
+                }
+                else
+                {
+                    switch ((TypeOfTerrain)panel.Controls.IndexOf(panel.Controls.OfType<RadioButton>().Where(x => x.Checked).First()))
+                    {
+                        case TypeOfTerrain.Mine:
+                            int diffX = e.Location.X / GetSize() % 3;
+                            int diffY = e.Location.Y / GetSize() % 3;
+
+                            SaveTerrainsToMap(e);
+
+                            for (int i = 0; i < 3; i++)
+                            {
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    elements.Add(new Element(new Size(GetPointSize()), new Point(MakeCorrect(e.Location.X) + ToSize(i) - ToSize(diffX), MakeCorrect(e.Location.Y) + ToSize(j) - ToSize(diffY)), GetColor(), 2));
+                                }
+                            }
+                            break;
+                        case TypeOfTerrain.Bridge:
+                            if (map[e.Location.X/GetSize(), e.Location.Y / GetSize()].terrain != TypeOfTerrain.Bridge && map[e.Location.X / GetSize(), e.Location.Y / GetSize()].terrain != TypeOfTerrain.BridgeHorizontal)
+                            {
+                                SaveTerrainsToMap(e);
+
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    for (int j = 0; j < 5; j++)
+                                    {
+                                        elements.Add(new Element(new Size(GetPointSize()), new Point(MakeCorrect(e.Location.X) + ToSize(i), MakeCorrect(e.Location.Y) + ToSize(j)), GetColor(), 2));
+                                    }
+                                }
+                            }
+                            break;
+                        case TypeOfTerrain.BridgeHorizontal:
+                            if (map[e.Location.X/GetSize(), e.Location.Y / GetSize()].terrain != TypeOfTerrain.Bridge && map[e.Location.X / GetSize(), e.Location.Y / GetSize()].terrain != TypeOfTerrain.BridgeHorizontal)
+                            {
+                                SaveTerrainsToMap(e);
+
+                                for (int i = 0; i < 5; i++)
+                                {
+                                    for (int j = 0; j < 3; j++)
+                                    {
+                                        elements.Add(new Element(new Size(GetPointSize()), new Point(MakeCorrect(e.Location.X) + ToSize(i), MakeCorrect(e.Location.Y) + ToSize(j)), GetColor(), 2));
+                                    }
+                                }
+                            }
+                            break;
+                        case TypeOfTerrain.TownhallHum:
+                            diffX = e.Location.X / GetSize() % 3;
+                            diffY = e.Location.Y / GetSize() % 3;
+
+                            SaveTerrainsToMap(e);
+
+                            for (int i = 0; i < 3; i++)
+                            {
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    elements.Add(new Element(new Size(GetPointSize()), new Point(MakeCorrect(e.Location.X) + ToSize(i) - ToSize(diffX), MakeCorrect(e.Location.Y) + ToSize(j) - ToSize(diffY)), GetColor(), 2));
+                                }
+                            }
+                            break;
+                        case TypeOfTerrain.TownhallOrc:
+                            diffX = e.Location.X / GetSize() % 3;
+                            diffY = e.Location.Y / GetSize() % 3;
+
+                            SaveTerrainsToMap(e);
+
+                            for (int i = 0; i < 3; i++)
+                            {
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    elements.Add(new Element(new Size(GetPointSize()), new Point(MakeCorrect(e.Location.X) + ToSize(i) - ToSize(diffX), MakeCorrect(e.Location.Y) + ToSize(j) - ToSize(diffY)), GetColor(), 2));
+                                }
+                            }
+                            break;
+                    }
+                }
                 Invalidate();
             }
         }
@@ -440,17 +547,82 @@ namespace MapEditor
                     map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Tree;
                     break;
                 case TypeOfTerrain.Mine:
-                    map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Mine;
-                    //map[(int)e.Location.X / GetSize() + 1, (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Mine;
-                    //map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize() + 1].terrain = TypeOfTerrain.Mine;
-                    //map[(int)e.Location.X / GetSize() + 1, (int)e.Location.Y / GetSize() + 1].terrain = TypeOfTerrain.Mine;
+                    //map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Mine;
+
+                    int diffX = e.Location.X / GetSize() % 3;
+                    int diffY = e.Location.Y / GetSize() % 3;
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            map[(int)e.Location.X / GetSize() - diffX + i, (int)e.Location.Y / GetSize() - diffY + j].terrain = TypeOfTerrain.Mine;
+                        }
+                    }
                     break;
                 case TypeOfTerrain.Bridge:
-                    map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Bridge;
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 5; j++)
+                        {
+                            map[(int)e.Location.X / GetSize() + i, (int)e.Location.Y / GetSize() + j].terrain = TypeOfTerrain.Bridge;
+                        }
+                    }
+
+                    //map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Bridge;
+                    break;
+                case TypeOfTerrain.BridgeHorizontal:
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            map[(int)e.Location.X / GetSize() + i, (int)e.Location.Y / GetSize() + j].terrain = TypeOfTerrain.Bridge;
+                        }
+                    }
+
+                    //map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Bridge;
+                    break;
+                case TypeOfTerrain.TownhallHum:
+
+                    diffX = e.Location.X / GetSize() % 3;
+                    diffY = e.Location.Y / GetSize() % 3;
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            map[(int)e.Location.X / GetSize() - diffX + i, (int)e.Location.Y / GetSize() - diffY + j].terrain = TypeOfTerrain.TownhallHum;
+                        }
+                    }
+                    //map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Bridge;
+                    break;
+                case TypeOfTerrain.TownhallOrc:
+
+                    diffX = e.Location.X / GetSize() % 3;
+                    diffY = e.Location.Y / GetSize() % 3;
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            map[(int)e.Location.X / GetSize() - diffX + i, (int)e.Location.Y / GetSize() - diffY + j].terrain = TypeOfTerrain.TownhallOrc;
+                        }
+                    }
+                    //map[(int)e.Location.X / GetSize(), (int)e.Location.Y / GetSize()].terrain = TypeOfTerrain.Bridge;
                     break;
             }
         }
 
+        private int MakeCorrect(int Value)
+        {
+            return Value / GetSize() * GetSize();
+        }
+        private int ToSize(int Value)
+        {
+            return Value * GetSize();
+        }
         private void IndicateRoadSprite()
         {
             for (int i = 0; i < 100; i++)
@@ -928,5 +1100,3 @@ namespace MapEditor
         #endregion
     }
 }
-
-

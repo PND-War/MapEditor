@@ -9,7 +9,10 @@ namespace MapEditor
         Road,
         Tree,
         Mine,
-        Bridge
+        Bridge,
+        BridgeHorizontal,
+        TownhallHum,
+        TownhallOrc
     }
     public class Field
     {
